@@ -126,7 +126,7 @@ class _MyMainPageState extends State<MyMainPage> {
     super.dispose();
   }
 
-    Future<void> getData() async {
+  Future<void> getData() async {
       PackageInfo packageInfo = await PackageInfo.fromPlatform();
       String versionName = packageInfo.buildNumber;
 
