@@ -256,7 +256,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     child: ElevatedButton(
                       onPressed: () {
                         // Add your button's functionality here
-                        print('Button pressed!');
+                        reloadWindow();
                       },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Color.fromARGB(
