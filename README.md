@@ -1,6 +1,6 @@
 
 
-# Track Your Yumi
+# Track Your Catpawz
 
 Basically with this app/tool you can track my current status, yeah I need to set it manually but in case I'm not answering maybe this could be useful for you, who knows? I'm totally not doing this because I'm slowly loosing my mind, and also totally not because I'm exhausted, and I don't wanna keep going, but I gotta be strong for my future...
 
@@ -30,7 +30,7 @@ repository](https://git.dynapaw.eu/Yumithecat/ForMyLove) or check out our
 
 ## Authors & Contributors
 
-  - **Yumithecat (Tom Bugada)** - *Working on the code* - [Porfolio](https://yumithecat.eu)
+  - **Catpawz (Tom Bugada)** - *Working on the code* - [Porfolio](https://catpawz.eu)
   - **Billie Thompson** - *Provided README Template* - [PurpleBooth](https://github.com/PurpleBooth)
 
 ## License
