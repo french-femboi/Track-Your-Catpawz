@@ -6,6 +6,7 @@ import 'package:audioplayers_web/audioplayers_web.dart';
 import 'dart:convert';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:url_launcher/url_launcher_string.dart';
+import 'dart:js' as js;
 
 void main() {
   runApp(const MyApp());
@@ -154,7 +155,7 @@ class _MyHomePageState extends State<MyHomePage> {
           ),
           IconButton(
             icon: Icon(Icons.refresh_rounded),
-            onPressed: _openThree,
+            onPressed: js.context.callMethod('location.reload'),
             tooltip: "GIT",
             color: Color(0xFF110d17),
           ),
