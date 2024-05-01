@@ -117,6 +117,17 @@ class _MyHomePageState extends State<MyHomePage> {
     }
   }
 
+    void _openThree() async {
+    const websiteUrl =
+        'https://status.catpawz.eu'; // Replace with your website URL
+    if (await canLaunchUrlString(websiteUrl)) {
+      await launchUrlString(websiteUrl);
+      print('I did launch $websiteUrl');
+    } else {
+      print('Could not launch $websiteUrl');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -138,6 +149,12 @@ class _MyHomePageState extends State<MyHomePage> {
           IconButton(
             icon: Icon(Icons.code_rounded),
             onPressed: _openTwo,
+            tooltip: "GIT",
+            color: Color(0xFF110d17),
+          ),
+          IconButton(
+            icon: Icon(Icons.refresh_rounded),
+            onPressed: _openThree,
             tooltip: "GIT",
             color: Color(0xFF110d17),
           ),
