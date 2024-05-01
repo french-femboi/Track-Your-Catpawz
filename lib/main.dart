@@ -1,204 +1,210 @@
-//      _____ _                           _____                     
-//     / ____| |                         / ____|                    
-//    | |    | |__  _ __ ___  _ __   ___| (___   ___ _ __  ___  ___ 
-//    | |    | '_ \| '__/ _ \| '_ \ / _ \\___ \ / _ \ '_ \/ __|/ _ \
-//    | |____| | | | | | (_) | | | | (_) |___) |  __/ | | \__ \  __/
-//     \_____|_| |_|_|  \___/|_| |_|\___/_____/ \___|_| |_|___/\___|
-//
-//----------------------------------------------------------------------
-//
-//Coded by Yumithecat with <3 and cookies
-//thanks to Felix for being the best boyfriend ever :]
-//Felix if you ever see this, I love you sooo much
-//
-// ignore_for_file: prefer_const_constructors, use_build_context_synchronously, unused_local_variable, no_leading_underscores_for_local_identifiers, deprecated_member_use, sort_child_properties_last, unnecessary_cast
-
-import 'dart:async';
-import 'package:flutter/foundation.dart';
+import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:flutter_vibrate/flutter_vibrate.dart';
-import 'package:package_info_plus/package_info_plus.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:http/http.dart' as http;
+import 'package:audioplayers_platform_interface/audioplayers_platform_interface.dart';
+import 'package:audioplayers_web/audioplayers_web.dart';
+import 'dart:convert';
+import 'package:url_launcher/url_launcher.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 
 void main() {
-  SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
-    statusBarColor: Colors.transparent,
-  ));
-
-  runApp(const MyMain());
+  runApp(const MyApp());
 }
 
-class MyMain extends StatelessWidget {
-  const MyMain({super.key});
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'ChronoSense',
-      theme: customThemeData(), // Use the custom theme
-      home: const MyMainPage(title: 'ChronoSense'),
+      title: 'Track Your Catpawz',
+      theme: ThemeData(
+        colorScheme: ColorScheme.fromSeed(seedColor: Color(0xFF14101b)),
+        useMaterial3: true,
+      ),
+      home: const MyHomePage(title: 'Track Your Catpawz :3'),
     );
   }
 }
 
-//MATERIAL THEME DATA
-ThemeData customThemeData() {
-  Color primaryColor = Color(0xFF0EF6CC);
-  Color accentColor = Color(0xFF3A4F50);
-  Color backgroundColor = Color(0xFF1d0c1a);
+class MyHomePage extends StatefulWidget {
+  const MyHomePage({super.key, required this.title});
 
-  MaterialColor primarySwatch = MaterialColor(
-    primaryColor.value,
-    <int, Color>{
-      50: primaryColor.withOpacity(0.1),
-      100: primaryColor.withOpacity(0.2),
-      200: primaryColor.withOpacity(0.3),
-      300: primaryColor.withOpacity(0.4),
-      400: primaryColor.withOpacity(0.5),
-      500: primaryColor.withOpacity(0.6),
-      600: primaryColor.withOpacity(0.7),
-      700: primaryColor.withOpacity(0.8),
-      800: primaryColor.withOpacity(0.9),
-      900: primaryColor.withOpacity(1.0),
-    },
-  );
-
-  return ThemeData(
-    primarySwatch: primarySwatch,
-    hintColor: accentColor,
-    fontFamily: 'Quicksand', // Apply the Quicksand font
-    scaffoldBackgroundColor: backgroundColor,
-    // Add more customizations here if needed
-    useMaterial3: true,
-  );
-}
-
-class MyMainPage extends StatefulWidget {
-  const MyMainPage({super.key, required this.title});
   final String title;
+
   @override
-  State<MyMainPage> createState() => _MyMainPageState();
+  State<MyHomePage> createState() => _MyHomePageState();
 }
 
-Future<void> initializeWindow(BuildContext context) async {
-  final SharedPreferences prefs = await SharedPreferences.getInstance();
-  final String? skipIntro = prefs.getString('cs_introdone');
+class _MyHomePageState extends State<MyHomePage> {
+  String status = '';
+  String imageUrl = '';
+  String lastUpdate = '';
+  bool isLocked = false;
 
-
-  WidgetsFlutterBinding.ensureInitialized();
-
-}
-
-class _MyMainPageState extends State<MyMainPage> {
-  String? versionName;
-
-  bool _showColumn =
-      false; // Initialize to false, so the column is hidden on page load
-
-  vibrate(){
-    if (Theme.of(context).platform == TargetPlatform.android) {
-      const _type = FeedbackType.selection;
-      HapticFeedback.vibrate();
-    }
-  }
+  String get url => "https://ydy.dynapaw.eu/audio/meow.mp3";
 
   @override
   void initState() {
     super.initState();
-
-    // Set a delay to start the fade-in animation after 0.5 seconds
-    Timer(Duration(milliseconds: 1000), () {
-      setState(() {
-        _showColumn = true;
-      });
-    });
-
-    initializeWindow(context);
-    getData();
-    setFlaunch();
+    _authenticate();
   }
 
-  @override
-  void dispose() {
-    // Cancel the timer when the widget is disposed
-    super.dispose();
+  void _openOffline() async {
+    const websiteUrl =
+        'https://dynapaw.eu/server-offline'; // Replace with your website URL
+    if (await canLaunchUrlString(websiteUrl)) {
+      await launchUrlString(websiteUrl);
+      print('I did launch $websiteUrl');
+    } else {
+      print('Could not launch $websiteUrl');
+    }
   }
 
-  Future<void> getData() async {
-      PackageInfo packageInfo = await PackageInfo.fromPlatform();
-      String versionName = packageInfo.buildNumber;
+  _authenticate() async {
+    try {
+      // Replace 'YOUR_API_KEY' with your actual API key
+      String apiKey = '1iXG6spD19qSXKJ00rRnt3aw3FaGtfEu';
 
-    setState(() {});
+      // Create the URL for your API call
+      String url =
+          'https://api.dynapaw.eu/api/database/rows/table/1091/?user_field_names=true';
+
+      // Make the API call using http package
+      final response = await http.get(
+        Uri.parse(url),
+        headers: {'Authorization': 'Token $apiKey'},
+      );
+
+      if (response.statusCode == 200) {
+        final dynamic json = jsonDecode(response.body);
+        final List<dynamic> results = json['results'];
+
+        if (results.isNotEmpty) {
+          final result = results[0]; // Use the first result for demo purposes
+          setState(() {
+            status = result['status'];
+          });
+        }
+      } else {
+        print('API call failed with status code: ${response.statusCode}');
+      }
+    } catch (e) {
+      print('An error occurred: $e');
+    }
   }
 
-  setFlaunch() async {
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
-    await prefs.setString('cs_flaunch', "true");
+  void _openOne() async {
+    const websiteUrl =
+        'https://catpawz.eu'; // Replace with your website URL
+    if (await canLaunchUrlString(websiteUrl)) {
+      await launchUrlString(websiteUrl);
+      print('I did launch $websiteUrl');
+    } else {
+      print('Could not launch $websiteUrl');
+    }
+  }
+
+    void _openTwo() async {
+    const websiteUrl =
+        'https://git.dynapaw.eu/fluffy_catpawz/TYY'; // Replace with your website URL
+    if (await canLaunchUrlString(websiteUrl)) {
+      await launchUrlString(websiteUrl);
+      print('I did launch $websiteUrl');
+    } else {
+      print('Could not launch $websiteUrl');
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-    // Set the navigation bar color to the app's background color
-    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
-      systemNavigationBarColor: Theme.of(context).scaffoldBackgroundColor,
-    ));
-
-     return Scaffold(
-      body: Padding(
-        padding: EdgeInsets.all(
-            20.0), // Replace '16.0' with your desired padding value
-        child: Center(
-          child: AnimatedOpacity(
-            opacity: _showColumn ? 1.0 : 0.0, // Step 2: Set the initial opacity
-            duration: Duration(
-                milliseconds: 500), // Duration of the fade-in animation
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                //TIMER ICON
-                Image.asset('assets/images/logo.png'),
-                SizedBox(height: 40),
-
-                //TITLE TEXT
-                Text(
-                  'Track Your Yumi',
-                  style: TextStyle(
-                    fontSize: 40,
-                    color: Color(0xFFff0066),
-                    fontWeight: FontWeight.w900,
+    return Scaffold(
+      backgroundColor: Color(0xFF110d17),
+      appBar: AppBar(
+        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+        title: Text(widget.title,
+            style: TextStyle(
+              fontWeight: FontWeight.w900,
+              fontFamily: 'quicksand',
+            )),
+        actions: [
+          IconButton(
+            icon: Icon(Icons.home_rounded),
+            onPressed: _openOne,
+            tooltip: "Back to Catpawz",
+            color: Color(0xFF110d17),
+          ),
+          IconButton(
+            icon: Icon(Icons.code_rounded),
+            onPressed: _openTwo,
+            tooltip: "GIT",
+            color: Color(0xFF110d17),
+          ),
+        ],
+      ),
+      body: SingleChildScrollView(
+        // Wrap the Column in a SingleChildScrollView
+        child: Padding(
+          padding: const EdgeInsets.all(20),
+          child: Column(
+            children: <Widget>[
+              Column(
+                children: [
+                  Row(
+                    children: [
+                      Text(
+                        "Catpawz is currently ",
+                        style: TextStyle(
+                          fontSize: 30,
+                          color: Colors.white,
+                          fontFamily: 'quicksand',
+                        ),
+                        textAlign: TextAlign.start,
+                      ),
+                      Text(
+                        status,
+                        style: TextStyle(
+                          fontSize: 30,
+                          color: Color.fromARGB(255, 171, 145, 218),
+                          fontFamily: 'quicksand',
+                          fontWeight: FontWeight.w700,
+                        ),
+                        textAlign: TextAlign.start,
+                      ),
+                    ],
                   ),
-                  textAlign: TextAlign.center,
-                ),
-                SizedBox(height: 10),
-
-                Text(
-                  "Made with ❤️ by Yumi",
+                                Align(
+                alignment: Alignment.centerLeft,
+                child: Text(
+                  "Hiya :3 On this page you'll be able to see my current status information... I think this pretty much explains itself doesn't it?",
                   style: TextStyle(
-                    fontSize: 18,
-                    color: Color(0xFFA3798A),
-                    fontWeight: FontWeight.w700,
+                    fontSize: 20,
+                    color: Color(0xFFE6DCF7),
+                    fontFamily: 'quicksand',
                   ),
-                  textAlign: TextAlign.center,
+                  textAlign: TextAlign.start,
                 ),
-
-                Text(
-                  'Initiating server connection...',
-                  style: TextStyle(
-                    fontSize: 16,
-                    color: Color(0xFFA3798A),
-                    fontWeight: FontWeight.w700,
+              ),
+                  const SizedBox(height: 20),
+                  const SizedBox(height: 20),
+                  Align(
+                    alignment: Alignment.centerLeft,
+                    child: Text(
+                      'Copyright © 2023-2024 Catpawz',
+                      style: TextStyle(
+                        fontSize: 15,
+                        color: Color(0xFFE6DCF7),
+                        fontFamily: 'quicksand',
+                      ),
+                      textAlign: TextAlign.left,
+                    ),
                   ),
-                  textAlign: TextAlign.center,
-                ),
-
-                
-              ],
-            ),
+                ],
+              ),
+            ],
           ),
         ),
       ),
-        );
+    );
   }
 }
