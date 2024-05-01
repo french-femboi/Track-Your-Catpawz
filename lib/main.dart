@@ -38,8 +38,8 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   String status = '';
-  String imageUrl = '';
-  String lastUpdate = '';
+  String energy = '';
+  String social = '';
   bool isLocked = false;
 
   String get url => "https://ydy.dynapaw.eu/audio/meow.mp3";
@@ -84,6 +84,8 @@ class _MyHomePageState extends State<MyHomePage> {
           final result = results[0]; // Use the first result for demo purposes
           setState(() {
             status = result['status'];
+            energy = result['energy'];
+            social = result['socialstatus'];
           });
         }
       } else {
@@ -95,8 +97,7 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   void _openOne() async {
-    const websiteUrl =
-        'https://catpawz.eu'; // Replace with your website URL
+    const websiteUrl = 'https://catpawz.eu'; // Replace with your website URL
     if (await canLaunchUrlString(websiteUrl)) {
       await launchUrlString(websiteUrl);
       print('I did launch $websiteUrl');
@@ -105,7 +106,7 @@ class _MyHomePageState extends State<MyHomePage> {
     }
   }
 
-    void _openTwo() async {
+  void _openTwo() async {
     const websiteUrl =
         'https://git.dynapaw.eu/fluffy_catpawz/TYY'; // Replace with your website URL
     if (await canLaunchUrlString(websiteUrl)) {
@@ -150,41 +151,82 @@ class _MyHomePageState extends State<MyHomePage> {
             children: <Widget>[
               Column(
                 children: [
-                  Row(
-                    children: [
-                      Text(
-                        "Catpawz is currently ",
-                        style: TextStyle(
-                          fontSize: 30,
-                          color: Colors.white,
-                          fontFamily: 'quicksand',
-                        ),
-                        textAlign: TextAlign.start,
+                  Align(
+                    alignment: Alignment.centerLeft,
+                    child: Text(
+                      "Hiya :3 On this page you'll be able to see my current status information... I think this pretty much explains itself doesn't it?",
+                      style: TextStyle(
+                        fontSize: 16,
+                        color: Color(0xFFE6DCF7),
+                        fontFamily: 'quicksand',
                       ),
-                      Text(
-                        status,
-                        style: TextStyle(
-                          fontSize: 30,
-                          color: Color.fromARGB(255, 171, 145, 218),
-                          fontFamily: 'quicksand',
-                          fontWeight: FontWeight.w700,
-                        ),
-                        textAlign: TextAlign.start,
+                      textAlign: TextAlign.start,
+                    ),
+                  ),
+                  Align(
+                    alignment: Alignment.centerLeft,
+                    child: Text(
+                      "To refetch the status, please reload this page :')",
+                      style: TextStyle(
+                        fontSize: 16,
+                        color: Color(0xFFE6DCF7),
+                        fontFamily: 'quicksand',
                       ),
-                    ],
+                      textAlign: TextAlign.start,
+                    ),
                   ),
-                                Align(
-                alignment: Alignment.centerLeft,
-                child: Text(
-                  "Hiya :3 On this page you'll be able to see my current status information... I think this pretty much explains itself doesn't it?",
-                  style: TextStyle(
-                    fontSize: 20,
-                    color: Color(0xFFE6DCF7),
-                    fontFamily: 'quicksand',
+                  const SizedBox(height: 10),
+                  Align(
+                    alignment: Alignment.centerLeft,
+                    child: Text(
+                      "Catpawz is currently...",
+                      style: TextStyle(
+                        fontSize: 30,
+                        color: Colors.white,
+                        fontFamily: 'quicksand',
+                      ),
+                      textAlign: TextAlign.start,
+                    ),
                   ),
-                  textAlign: TextAlign.start,
-                ),
-              ),
+                  Align(
+                    alignment: Alignment.centerLeft,
+                    child: Text(
+                      "..." + status,
+                      style: TextStyle(
+                        fontSize: 25,
+                        color: Color.fromARGB(255, 171, 145, 218),
+                        fontFamily: 'quicksand',
+                        fontWeight: FontWeight.w700,
+                      ),
+                      textAlign: TextAlign.start,
+                    ),
+                  ),
+                  Align(
+                    alignment: Alignment.centerLeft,
+                    child: Text(
+                      "..." + energy,
+                      style: TextStyle(
+                        fontSize: 25,
+                        color: Color.fromARGB(255, 171, 145, 218),
+                        fontFamily: 'quicksand',
+                        fontWeight: FontWeight.w700,
+                      ),
+                      textAlign: TextAlign.start,
+                    ),
+                  ),
+                  Align(
+                    alignment: Alignment.centerLeft,
+                    child: Text(
+                      "..." + social,
+                      style: TextStyle(
+                        fontSize: 25,
+                        color: Color.fromARGB(255, 171, 145, 218),
+                        fontFamily: 'quicksand',
+                        fontWeight: FontWeight.w700,
+                      ),
+                      textAlign: TextAlign.start,
+                    ),
+                  ),
                   const SizedBox(height: 20),
                   const SizedBox(height: 20),
                   Align(
