@@ -45,6 +45,8 @@ class _MyHomePageState extends State<MyHomePage> {
   String energy = '';
   String social = '';
   String message = '';
+  String sstatus = '';
+  String volumes = '';
   bool isLocked = false;
 
   String get url => "https://ydy.dynapaw.eu/audio/meow.mp3";
@@ -92,6 +94,8 @@ class _MyHomePageState extends State<MyHomePage> {
             energy = result['energy'];
             social = result['socialstatus'];
             message = result['message'];
+            sstatus = result['sstatus'];
+            volumes = result['music'];
           });
         }
       } else {
@@ -224,7 +228,7 @@ class _MyHomePageState extends State<MyHomePage> {
                             color: Color(0xFFAE7DEE),
                           ),
                           title: Text(
-                            "Status (AFK/Activity)",
+                            "Status - $sstatus",
                             style: TextStyle(
                                 color: Color(
                                     0xFFAE7DEE)), // Set the desired title color here
@@ -301,6 +305,40 @@ class _MyHomePageState extends State<MyHomePage> {
                               style: TextStyle(
                                   color: Color.fromARGB(255, 214, 203, 228)),
                               social),
+                        ),
+                      ],
+                    ),
+                  ),
+
+                  Card(
+                    color: Color.fromARGB(255, 46, 39, 58),
+                    elevation: 0,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.only(
+                        bottomLeft: Radius.circular(2.0),
+                        bottomRight: Radius.circular(2.0),
+                        topLeft: Radius.circular(2.0),
+                        topRight: Radius.circular(2.0),
+                      ),
+                    ),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: <Widget>[
+                        ListTile(
+                          leading: Icon(
+                            Icons.volume_up_rounded,
+                            color: Color(0xFFAE7DEE),
+                          ),
+                          title: Text(
+                            "Volume status",
+                            style: TextStyle(
+                                color: Color(
+                                    0xFFAE7DEE)), // Set the desired title color here
+                          ),
+                          subtitle: Text(
+                              style: TextStyle(
+                                  color: Color.fromARGB(255, 214, 203, 228)),
+                              volumes),
                         ),
                       ],
                     ),
