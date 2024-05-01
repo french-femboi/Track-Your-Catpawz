@@ -194,7 +194,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                     Align(
                     alignment: Alignment.centerLeft,
                     child: Text(
-                      "Hiya :3 On this page you'll be able to see my current status information... I think this pretty much explains itself doesn't it? It's possible that this is a tiny bit delayed as my server are kinda slow sometimes :<",
+                      "Hiya :3 On this page you'll be able to see my current status information... I think this pretty much explains itself doesn't it? It's possible that this is a tiny bit delayed as my servers are kinda slow sometimes :<",
                       style: TextStyle(
                         fontSize: 16,
                         color: Color(0xFFE6DCF7),
