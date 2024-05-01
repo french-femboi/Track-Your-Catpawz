@@ -7,6 +7,7 @@ import 'dart:convert';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 import 'dart:js' as js;
+import 'dart:html' as html;
 
 void main() {
   runApp(const MyApp());
@@ -118,7 +119,7 @@ class _MyHomePageState extends State<MyHomePage> {
     }
   }
 
-    void _openThree() async {
+  void _openThree() async {
     const websiteUrl =
         'https://status.catpawz.eu'; // Replace with your website URL
     if (await canLaunchUrlString(websiteUrl)) {
@@ -127,6 +128,10 @@ class _MyHomePageState extends State<MyHomePage> {
     } else {
       print('Could not launch $websiteUrl');
     }
+  }
+
+  reloadWindow() {
+    html.window.location.reload();
   }
 
   @override
@@ -155,7 +160,7 @@ class _MyHomePageState extends State<MyHomePage> {
           ),
           IconButton(
             icon: Icon(Icons.refresh_rounded),
-            onPressed: js.context.callMethod('location.reload'),
+            onPressed: reloadWindow,
             tooltip: "GIT",
             color: Color(0xFF110d17),
           ),
@@ -246,6 +251,28 @@ class _MyHomePageState extends State<MyHomePage> {
                     ),
                   ),
                   const SizedBox(height: 20),
+                  Align(
+                    alignment: Alignment.centerLeft,
+                    child: ElevatedButton(
+                      onPressed: () {
+                        // Add your button's functionality here
+                        print('Button pressed!');
+                      },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Color.fromARGB(
+                            255, 34, 27, 46), // Change background color here
+                      ),
+                      child: Text(
+                      "Refresh status data now...",
+                      style: TextStyle(
+                        color: Color.fromARGB(255, 171, 145, 218),
+                        fontFamily: 'quicksand',
+                        fontWeight: FontWeight.w700,
+                      ),
+                      textAlign: TextAlign.start,
+                    ),
+                    ),
+                  ),
                   const SizedBox(height: 20),
                   Align(
                     alignment: Alignment.centerLeft,
