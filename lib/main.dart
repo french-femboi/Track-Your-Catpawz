@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
+// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, avoid_web_libraries_in_flutter, unused_import, unused_element, avoid_print
 
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
