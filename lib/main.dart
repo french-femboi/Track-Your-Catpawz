@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, avoid_web_libraries_in_flutter, unused_import, unused_element, avoid_print
+
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -42,6 +44,9 @@ class _MyHomePageState extends State<MyHomePage> {
   String status = '';
   String energy = '';
   String social = '';
+  String message = '';
+  String sstatus = '';
+  String volumes = '';
   bool isLocked = false;
 
   String get url => "https://ydy.dynapaw.eu/audio/meow.mp3";
@@ -88,6 +93,9 @@ class _MyHomePageState extends State<MyHomePage> {
             status = result['status'];
             energy = result['energy'];
             social = result['socialstatus'];
+            message = result['message'];
+            sstatus = result['sstatus'];
+            volumes = result['music'];
           });
         }
       } else {
@@ -133,6 +141,7 @@ class _MyHomePageState extends State<MyHomePage> {
   reloadWindow() {
     html.window.location.reload();
   }
+  
 
   @override
   Widget build(BuildContext context) {
@@ -161,7 +170,7 @@ class _MyHomePageState extends State<MyHomePage> {
           IconButton(
             icon: Icon(Icons.refresh_rounded),
             onPressed: reloadWindow,
-            tooltip: "GIT",
+            tooltip: "Reload",
             color: Color(0xFF110d17),
           ),
         ],
@@ -169,7 +178,7 @@ class _MyHomePageState extends State<MyHomePage> {
       body: SingleChildScrollView(
         // Wrap the Column in a SingleChildScrollView
         child: Padding(
-          padding: const EdgeInsets.all(20),
+          padding: EdgeInsets.all(20),
           child: Column(
             children: <Widget>[
               Column(
@@ -177,32 +186,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   Align(
                     alignment: Alignment.centerLeft,
                     child: Text(
-                      "Hiya :3 On this page you'll be able to see my current status information... I think this pretty much explains itself doesn't it?",
-                      style: TextStyle(
-                        fontSize: 16,
-                        color: Color(0xFFE6DCF7),
-                        fontFamily: 'quicksand',
-                      ),
-                      textAlign: TextAlign.start,
-                    ),
-                  ),
-                  Align(
-                    alignment: Alignment.centerLeft,
-                    child: Text(
-                      "To refetch the status, please reload this page :')",
-                      style: TextStyle(
-                        fontSize: 16,
-                        color: Color(0xFFE6DCF7),
-                        fontFamily: 'quicksand',
-                      ),
-                      textAlign: TextAlign.start,
-                    ),
-                  ),
-                  const SizedBox(height: 10),
-                  Align(
-                    alignment: Alignment.centerLeft,
-                    child: Text(
-                      "Catpawz is currently...",
+                      "Catpawz current status",
                       style: TextStyle(
                         fontSize: 30,
                         color: Colors.white,
@@ -211,51 +195,194 @@ class _MyHomePageState extends State<MyHomePage> {
                       textAlign: TextAlign.start,
                     ),
                   ),
-                  Align(
+                                    Align(
                     alignment: Alignment.centerLeft,
                     child: Text(
-                      "..." + status,
+                      "Hiya :3 On this page you'll be able to see my current status information... I think this pretty much explains itself doesn't it? It's possible that this is a tiny bit delayed as my servers are kinda slow sometimes :<",
                       style: TextStyle(
-                        fontSize: 25,
-                        color: Color.fromARGB(255, 171, 145, 218),
+                        fontSize: 16,
+                        color: Color(0xFFE6DCF7),
                         fontFamily: 'quicksand',
-                        fontWeight: FontWeight.w700,
                       ),
                       textAlign: TextAlign.start,
                     ),
                   ),
-                  Align(
-                    alignment: Alignment.centerLeft,
-                    child: Text(
-                      "..." + energy,
-                      style: TextStyle(
-                        fontSize: 25,
-                        color: Color.fromARGB(255, 171, 145, 218),
-                        fontFamily: 'quicksand',
-                        fontWeight: FontWeight.w700,
+                  SizedBox(height: 20),
+                  Card(
+                    color: Color.fromARGB(255, 46, 39, 58),
+                    elevation: 0,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.only(
+                        bottomLeft: Radius.circular(2.0),
+                        bottomRight: Radius.circular(2.0),
+                        topLeft: Radius.circular(20.0),
+                        topRight: Radius.circular(20.0),
                       ),
-                      textAlign: TextAlign.start,
+                    ),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: <Widget>[
+                        ListTile(
+                          leading: Icon(
+                            Icons.code_rounded,
+                            color: Color(0xFFAE7DEE),
+                          ),
+                          title: Text(
+                            "Status - $sstatus",
+                            style: TextStyle(
+                                color: Color(
+                                    0xFFAE7DEE)), // Set the desired title color here
+                          ),
+                          subtitle: Text(
+                              style: TextStyle(
+                                  color: Color.fromARGB(255, 214, 203, 228)),
+                              status),
+                        ),
+                      ],
                     ),
                   ),
-                  Align(
-                    alignment: Alignment.centerLeft,
-                    child: Text(
-                      "..." + social,
-                      style: TextStyle(
-                        fontSize: 25,
-                        color: Color.fromARGB(255, 171, 145, 218),
-                        fontFamily: 'quicksand',
-                        fontWeight: FontWeight.w700,
+
+                  Card(
+                    color: Color.fromARGB(255, 46, 39, 58),
+                    elevation: 0,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.only(
+                        bottomLeft: Radius.circular(2.0),
+                        bottomRight: Radius.circular(2.0),
+                        topLeft: Radius.circular(2.0),
+                        topRight: Radius.circular(2.0),
                       ),
-                      textAlign: TextAlign.start,
+                    ),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: <Widget>[
+                        ListTile(
+                          leading: Icon(
+                            Icons.bolt_rounded,
+                            color: Color(0xFFAE7DEE),
+                          ),
+                          title: Text(
+                            "Energy level",
+                            style: TextStyle(
+                                color: Color(
+                                    0xFFAE7DEE)), // Set the desired title color here
+                          ),
+                          subtitle: Text(
+                              style: TextStyle(
+                                  color: Color.fromARGB(255, 214, 203, 228)),
+                              energy),
+                        ),
+                      ],
                     ),
                   ),
-                  const SizedBox(height: 20),
+
+                  Card(
+                    color: Color.fromARGB(255, 46, 39, 58),
+                    elevation: 0,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.only(
+                        bottomLeft: Radius.circular(2.0),
+                        bottomRight: Radius.circular(2.0),
+                        topLeft: Radius.circular(2.0),
+                        topRight: Radius.circular(2.0),
+                      ),
+                    ),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: <Widget>[
+                        ListTile(
+                          leading: Icon(
+                            Icons.monitor_heart_rounded,
+                            color: Color(0xFFAE7DEE),
+                          ),
+                          title: Text(
+                            "Social anxiety status",
+                            style: TextStyle(
+                                color: Color(
+                                    0xFFAE7DEE)), // Set the desired title color here
+                          ),
+                          subtitle: Text(
+                              style: TextStyle(
+                                  color: Color.fromARGB(255, 214, 203, 228)),
+                              social),
+                        ),
+                      ],
+                    ),
+                  ),
+
+                  Card(
+                    color: Color.fromARGB(255, 46, 39, 58),
+                    elevation: 0,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.only(
+                        bottomLeft: Radius.circular(2.0),
+                        bottomRight: Radius.circular(2.0),
+                        topLeft: Radius.circular(2.0),
+                        topRight: Radius.circular(2.0),
+                      ),
+                    ),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: <Widget>[
+                        ListTile(
+                          leading: Icon(
+                            Icons.volume_up_rounded,
+                            color: Color(0xFFAE7DEE),
+                          ),
+                          title: Text(
+                            "Volume status",
+                            style: TextStyle(
+                                color: Color(
+                                    0xFFAE7DEE)), // Set the desired title color here
+                          ),
+                          subtitle: Text(
+                              style: TextStyle(
+                                  color: Color.fromARGB(255, 214, 203, 228)),
+                              volumes),
+                        ),
+                      ],
+                    ),
+                  ),
+
+                  Card(
+                    color: Color.fromARGB(255, 46, 39, 58),
+                    elevation: 0,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.only(
+                        bottomLeft: Radius.circular(20.0),
+                        bottomRight: Radius.circular(20.0),
+                        topLeft: Radius.circular(2.0),
+                        topRight: Radius.circular(2.0),
+                      ),
+                    ),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: <Widget>[
+                        ListTile(
+                          leading: Icon(
+                            Icons.message_rounded,
+                            color: Color(0xFFAE7DEE),
+                          ),
+                          title: Text(
+                            "Custom message",
+                            style: TextStyle(
+                                color: Color(
+                                    0xFFAE7DEE)), // Set the desired title color here
+                          ),
+                          subtitle: Text(
+                              style: TextStyle(
+                                  color: Color.fromARGB(255, 214, 203, 228)),
+                              message),
+                        ),
+                      ],
+                    ),
+                  ),
+
+                  SizedBox(height: 20),
                   Align(
                     alignment: Alignment.centerLeft,
                     child: ElevatedButton(
-                      onPressed: () {
-                        // Add your button's functionality here
+                      onPressed: (){
                         reloadWindow();
                       },
                       style: ElevatedButton.styleFrom(
@@ -263,21 +390,21 @@ class _MyHomePageState extends State<MyHomePage> {
                             255, 34, 27, 46), // Change background color here
                       ),
                       child: Text(
-                      "Refresh status data now...",
-                      style: TextStyle(
-                        color: Color.fromARGB(255, 171, 145, 218),
-                        fontFamily: 'quicksand',
-                        fontWeight: FontWeight.w700,
+                        "Refresh status data now...",
+                        style: TextStyle(
+                          color: Color.fromARGB(255, 171, 145, 218),
+                          fontFamily: 'quicksand',
+                          fontWeight: FontWeight.w700,
+                        ),
+                        textAlign: TextAlign.start,
                       ),
-                      textAlign: TextAlign.start,
-                    ),
                     ),
                   ),
-                  const SizedBox(height: 20),
+                  SizedBox(height: 20),
                   Align(
                     alignment: Alignment.centerLeft,
                     child: Text(
-                      'Copyright © 2023-2024 Catpawz',
+                      '©2024 Catpawz | Powered by DYPROXY',
                       style: TextStyle(
                         fontSize: 15,
                         color: Color(0xFFE6DCF7),
