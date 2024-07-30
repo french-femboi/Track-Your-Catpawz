@@ -118,7 +118,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   void _openTwo() async {
     const websiteUrl =
-        'https://git.dynapaw.eu/fluffy_catpawz/TYY'; // Replace with your website URL
+        'https://code.cloud.catpawz.eu/catpawz-group/websites/track-your-catpawz'; // Replace with your website URL
     if (await canLaunchUrlString(websiteUrl)) {
       await launchUrlString(websiteUrl);
       print('I did launch $websiteUrl');
@@ -164,7 +164,7 @@ class _MyHomePageState extends State<MyHomePage> {
           IconButton(
             icon: Icon(Icons.code_rounded),
             onPressed: _openTwo,
-            tooltip: "GIT",
+            tooltip: "Source code",
             color: Color(0xFF110d17),
           ),
           IconButton(
@@ -404,7 +404,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   Align(
                     alignment: Alignment.centerLeft,
                     child: Text(
-                      '©2024 Catpawz | Powered by DYPROXY',
+                      '©2024 Catpawz | Made with <3 and cats by Catpawz',
                       style: TextStyle(
                         fontSize: 15,
                         color: Color(0xFFE6DCF7),
